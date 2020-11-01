@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import UserMap from '../mappers/UserMap';
 
 import CreateUserService from '../services/CreateUserService';
 
@@ -16,7 +17,9 @@ usersRouter.post('/', async (request, response) => {
       password
     });
 
-    return response.json(user);
+    const mappedUser = UserMap.toDTO(user);
+
+    return response.json(mappedUser);
   } catch (err) {
     return response.status(400).json({ message: err.message });
   }
