@@ -13,7 +13,7 @@ sessionsRouter.post('/', async (request, response) => {
 
     const { user, token } = await authenticateUser.execute({
       email,
-      password
+      password,
     });
 
     const mappedUser = UserMap.toDTO(user);

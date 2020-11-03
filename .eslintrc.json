@@ -32,7 +32,8 @@
     ],
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
-    "@typescrypt-eslint/camelcase": "off",
+    "camelcase": "off",
+    "@typescript-eslint/naming-convention": "off"
   },
   "settings": {
     "import/resolver": {

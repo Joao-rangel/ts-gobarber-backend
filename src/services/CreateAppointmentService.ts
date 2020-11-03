@@ -10,8 +10,7 @@ interface Request {
 }
 
 class CreateAppointmentService {
-  public async execute({ provider_id, date
-  }: Request): Promise<Appointment> {
+  public async execute({ provider_id, date }: Request): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
     const appointmentDate = startOfHour(date);
