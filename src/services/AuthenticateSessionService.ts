@@ -1,18 +1,19 @@
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import authConfig from '../config/auth';
 
 import User from '../models/User';
 
 interface Request {
   email: string;
   password: string;
-};
+}
 
 interface Response {
-  user: User,
-  token: string,
-};
+  user: User;
+  token: string;
+}
 
 class AuthenticateSessionService {
   public async execute({ email, password }: Request): Promise<Response> {
@@ -24,17 +25,19 @@ class AuthenticateSessionService {
 
     if (!user) {
       throw new Error('Invalid email/senha combination.');
-    };
+    }
 
     const validPassword = await compare(password, user.password);
 
     if (!validPassword) {
       throw new Error('Invalid email/senha combination.');
-    };
+    }
 
-    const token = sign({}, 'a75043087c75942bb93d77be5e08bfd7', {
+    const { secret, expiresIn } = authConfig.jwt;
+
+    const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: "3d",
+      expiresIn,
     });
 
     return {
@@ -42,6 +45,6 @@ class AuthenticateSessionService {
       token,
     };
   }
-};
+}
 
 export default AuthenticateSessionService;
