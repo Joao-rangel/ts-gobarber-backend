@@ -5,6 +5,7 @@ import UserMap from '../mappers/UserMap';
 import ensureAuthentication from '../middlewares/ensureAuthentication';
 
 import CreateUserService from '../services/CreateUserService';
+import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -34,7 +35,20 @@ usersRouter.patch(
   ensureAuthentication,
   upload.single('avatar'),
   async (request, response) => {
-    return response.json(request.file);
+    try {
+      const updateUserAvatar = new UpdateUserAvatarService();
+
+      const user = await updateUserAvatar.execute({
+        avatarFileName: request.file.filename,
+        user_id: request.user.id,
+      });
+
+      const mappedUser = UserMap.toDTO(user);
+
+      return response.json(mappedUser);
+    } catch (err) {
+      return response.status(400).json({ message: err.message });
+    }
   },
 );
 
