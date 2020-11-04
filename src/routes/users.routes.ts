@@ -11,23 +11,19 @@ const usersRouter = Router();
 const upload = multer(uploadConfig);
 
 usersRouter.post('/', async (request, response) => {
-  try {
-    const { name, email, password } = request.body;
+  const { name, email, password } = request.body;
 
-    const createUser = new CreateUserService();
+  const createUser = new CreateUserService();
 
-    const user = await createUser.execute({
-      name,
-      email,
-      password,
-    });
+  const user = await createUser.execute({
+    name,
+    email,
+    password,
+  });
 
-    const mappedUser = UserMap.toDTO(user);
+  const mappedUser = UserMap.toDTO(user);
 
-    return response.json(mappedUser);
-  } catch (err) {
-    return response.status(400).json({ message: err.message });
-  }
+  return response.json(mappedUser);
 });
 
 usersRouter.patch(
@@ -35,20 +31,16 @@ usersRouter.patch(
   ensureAuthentication,
   upload.single('avatar'),
   async (request, response) => {
-    try {
-      const updateUserAvatar = new UpdateUserAvatarService();
+    const updateUserAvatar = new UpdateUserAvatarService();
 
-      const user = await updateUserAvatar.execute({
-        avatarFileName: request.file.filename,
-        user_id: request.user.id,
-      });
+    const user = await updateUserAvatar.execute({
+      avatarFileName: request.file.filename,
+      user_id: request.user.id,
+    });
 
-      const mappedUser = UserMap.toDTO(user);
+    const mappedUser = UserMap.toDTO(user);
 
-      return response.json(mappedUser);
-    } catch (err) {
-      return response.status(400).json({ message: err.message });
-    }
+    return response.json(mappedUser);
   },
 );
 
