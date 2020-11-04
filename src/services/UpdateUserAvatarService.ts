@@ -4,6 +4,7 @@ import path from 'path';
 
 import User from '../models/User';
 import uploadConfig from '../config/upload';
+import AppError from '../errors/AppError';
 
 interface Request {
   avatarFileName: string;
@@ -17,7 +18,7 @@ class UpdateUserAvatarService {
     const user = await userRepository.findOne(user_id);
 
     if (!user) {
-      throw new Error('Invalid user Id.');
+      throw new AppError('Invalid user Id.', 401);
     }
 
     if (user.avatar) {
