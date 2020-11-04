@@ -8,7 +8,7 @@ import ensureAuthentication from '../middlewares/ensureAuthentication';
 
 const appointmentsRouter = Router();
 
-appointmentsRouter.use(ensureAuthentication); // para executar este middleware (de verificação) em todas as toras de appointments
+appointmentsRouter.use(ensureAuthentication);
 
 appointmentsRouter.get('/', async (request, response) => {
   const appointmentsRepository = getCustomRepository(AppointmentsRepository);
