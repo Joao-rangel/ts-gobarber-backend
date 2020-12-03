@@ -1,11 +1,10 @@
 import { injectable, inject } from 'tsyringe';
 
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
-
-// import User from '@modules/users/infra/typeorm/entities/User';
+import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
 interface IRequest {
   email: string;
@@ -19,12 +18,21 @@ class SendRecoveryEmailService {
 
     @inject('mailProvider')
     private mailProvider: IMailProvider,
+
+    @inject('userTokensRepository')
+    private userTokensRepository: IUserTokensRepository,
   ) {}
 
   public async execute({ email }: IRequest): Promise<void> {
+    const user = await this.usersRepository.findByEmail(email);
+
+    if (!user) throw new AppError('This email is not registered.');
+
+    await this.userTokensRepository.generate(user.id);
+
     this.mailProvider.sendMail(
       email,
-      'Seu pedido de recuperação de senha chegou!',
+      'Sua solicitação de recuperação de senha chegou!',
     );
   }
 }
