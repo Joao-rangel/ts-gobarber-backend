@@ -16,10 +16,10 @@ class SendRecoveryEmailService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('mailProvider')
+    @inject('MailProvider')
     private mailProvider: IMailProvider,
 
-    @inject('userTokensRepository')
+    @inject('UserTokensRepository')
     private userTokensRepository: IUserTokensRepository,
   ) {}
 
@@ -28,11 +28,11 @@ class SendRecoveryEmailService {
 
     if (!user) throw new AppError('This email is not registered.');
 
-    await this.userTokensRepository.generate(user.id);
+    const { token } = await this.userTokensRepository.generate(user.id);
 
-    this.mailProvider.sendMail(
+    await this.mailProvider.sendMail(
       email,
-      'Sua solicitação de recuperação de senha chegou!',
+      `Sua solicitação de recuperação de senha chegou! \n \n ${token}`,
     );
   }
 }
