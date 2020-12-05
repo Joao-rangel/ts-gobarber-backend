@@ -24,4 +24,16 @@ export default class ProfileController {
 
     return response.json(mappedUser);
   }
+
+  public async show(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
+
+    const showUser = container.resolve(ShowProfileService);
+
+    const user = await showUser.execute({ user_id });
+
+    const mappedUser = UserMap.toDTO(user);
+
+    return response.json(mappedUser);
+  }
 }
