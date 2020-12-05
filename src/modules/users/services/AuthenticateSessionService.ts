@@ -32,9 +32,7 @@ class AuthenticateSessionService {
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email);
 
-    if (!user) {
-      throw new AppError('Invalid email/senha combination.', 401);
-    }
+    if (!user) throw new AppError('Invalid email/senha combination.', 401);
 
     const validPassword = await this.hashProvider.compareHash(
       password,
@@ -52,10 +50,7 @@ class AuthenticateSessionService {
       expiresIn,
     });
 
-    return {
-      user,
-      token,
-    };
+    return { user, token };
   }
 }
 

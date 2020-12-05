@@ -5,21 +5,23 @@ import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import AuthenticateSessionService from './AuthenticateSessionService';
 import CreateUserService from './CreateUserService';
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUser: CreateUserService;
+let authenticateSession: AuthenticateSessionService;
+
 describe('AuthenticateSession', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+    authenticateSession = new AuthenticateSessionService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+  });
+
   it('should able to authenticate user with correct email/password combination', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const authenticateSession = new AuthenticateSessionService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     const user = await createUser.execute({
       name: 'Teste',
       email: 'teste@teste.com',
@@ -37,36 +39,15 @@ describe('AuthenticateSession', () => {
   });
 
   it('should not be able to authenticate user with invalid email', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const authenticateSession = new AuthenticateSessionService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     await expect(
       authenticateSession.execute({
-        email: 'teste123@teste.com',
+        email: 'invalid@teste.com',
         password: '123456',
       }),
-    ).rejects.toThrow(AppError);
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to authenticate user with wrong password', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const authenticateSession = new AuthenticateSessionService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     await createUser.execute({
       name: 'Teste',
       email: 'teste@teste.com',
@@ -78,6 +59,6 @@ describe('AuthenticateSession', () => {
         email: 'teste123@teste.com',
         password: 'wrongPassword',
       }),
-    ).rejects.toThrow(AppError);
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
