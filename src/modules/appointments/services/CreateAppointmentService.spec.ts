@@ -12,6 +12,7 @@ describe('CreateAppointment', () => {
       fakeAppointmentsRepository,
     );
   });
+
   it('should be able to create a new appointment', async () => {
     const appointment = await createAppointment.execute({
       date: new Date(),
