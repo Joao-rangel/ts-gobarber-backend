@@ -11,11 +11,15 @@ describe('CreateAppointment', () => {
     createAppointment = new CreateAppointmentService(
       fakeAppointmentsRepository,
     );
+
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2020, 4, 20, 10, 30, 0).getTime();
+    });
   });
 
   it('should be able to create a new appointment', async () => {
     const appointment = await createAppointment.execute({
-      date: new Date(),
+      date: new Date(2020, 4, 20, 14, 0, 0),
       provider_id: '01234',
       user_id: '007',
     });
@@ -25,7 +29,7 @@ describe('CreateAppointment', () => {
   });
 
   it('should not be able to create two appointments on the same time', async () => {
-    const appointmentDate = new Date();
+    const appointmentDate = new Date(2020, 4, 20, 14, 0, 0);
 
     await createAppointment.execute({
       date: appointmentDate,
@@ -36,6 +40,44 @@ describe('CreateAppointment', () => {
     await expect(
       createAppointment.execute({
         date: appointmentDate,
+        provider_id: '01234',
+        user_id: '007',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create an appointment on a past date', async () => {
+    await expect(
+      createAppointment.execute({
+        date: new Date(2020, 4, 20, 10, 0, 0),
+        provider_id: '01234',
+        user_id: '007',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create an appointment with yourself', async () => {
+    await expect(
+      createAppointment.execute({
+        date: new Date(2020, 4, 20, 16, 0, 0),
+        provider_id: 'myself',
+        user_id: 'myself',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create an appointment outside opening hours', async () => {
+    await expect(
+      createAppointment.execute({
+        date: new Date(2020, 4, 20, 6, 0, 0),
+        provider_id: '01234',
+        user_id: '007',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    await expect(
+      createAppointment.execute({
+        date: new Date(2020, 4, 20, 22, 0, 0),
         provider_id: '01234',
         user_id: '007',
       }),
