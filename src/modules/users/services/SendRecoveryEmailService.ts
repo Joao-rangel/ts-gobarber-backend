@@ -48,7 +48,7 @@ class SendRecoveryEmailService {
         file: templateFilePath,
         variables: {
           name: user.name,
-          link: `localhost:3000/reset_password?token=${token}`, // TODO update after creation
+          link: `${process.env.APP_WEB_URL}/reset_password?token=${token}`,
         },
       },
     });
