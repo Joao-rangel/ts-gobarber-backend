@@ -3,7 +3,7 @@ import { container } from 'tsyringe';
 
 import UpdateProfileService from '@modules/users/services/UpdateProfileService';
 import ShowProfileService from '@modules/users/services/ShowProfileService';
-import UserMap from '@modules/users/mappers/UserMap';
+import { classToClass } from 'class-transformer';
 
 export default class ProfileController {
   public async update(request: Request, response: Response): Promise<Response> {
@@ -20,9 +20,7 @@ export default class ProfileController {
       old_password,
     });
 
-    const mappedUser = UserMap.toDTO(user);
-
-    return response.json(mappedUser);
+    return response.json(classToClass(user));
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
@@ -32,8 +30,6 @@ export default class ProfileController {
 
     const user = await showUser.execute({ user_id });
 
-    const mappedUser = UserMap.toDTO(user);
-
-    return response.json(mappedUser);
+    return response.json(classToClass(user));
   }
 }
