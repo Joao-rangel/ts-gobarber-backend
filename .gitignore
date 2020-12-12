@@ -1,6 +1,6 @@
 node_modules/
-tmp/upload/*
-!tmp/upload/.gitkeep
+tmp/uploads/*
+!tmp/uploads/.gitkeep
 coverage/
 .env
 ormconfig.json
