@@ -45,6 +45,13 @@ describe('CreateAppointment', () => {
       user_id: '007',
     });
 
+    const appointment = await createAppointment.execute({
+      date: appointmentDate,
+      provider_id: 'outro-provider',
+      user_id: '007',
+    });
+
+    expect(appointment.provider_id).toBe('outro-provider');
     await expect(
       createAppointment.execute({
         date: appointmentDate,
