@@ -45,8 +45,8 @@ class UpdateProfileService {
       if (!old_password) throw new AppError('Missing old password.');
 
       const checkOldPassword = await this.hashProvider.compareHash(
-        user.password,
         old_password,
+        user.password,
       );
 
       if (!checkOldPassword) throw new AppError('Old password does not match.');
