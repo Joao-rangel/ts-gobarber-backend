@@ -1,9 +1,13 @@
 {
-  "name": "primeiro_projeto_node",
+  "name": "gobarber-api",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Joao Rangel <joao.vran@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "12.20.x",
+    "yarn": "1.22.x"
+  },
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts ",

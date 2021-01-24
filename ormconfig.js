@@ -16,9 +16,7 @@ module.exports = [
   {
     "name": "mongo",
     "type": "mongodb",
-    "host": "localhost",
-    "port": 27017,
-    "database": "gobarber",
+    "url": process.env.MONGO_URL,
     "useUnifiedTopology": true,
     "entities": [
       "./dist/modules/**/infra/typeorm/schemas/*.js"
