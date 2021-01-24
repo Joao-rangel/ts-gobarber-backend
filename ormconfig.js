@@ -1,12 +1,8 @@
-[
+module.exports = [
   {
     "name": "default",
     "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "postgres",
-    "password": "CHANGE_PASSWORD",
-    "database": "DATABASE_NAME",
+    "url": process.env.DATABASE_URL,
     "entities": [
       "./dist/modules/**/infra/typeorm/entities/*.js"
     ],
@@ -22,9 +18,7 @@
     "type": "mongodb",
     "host": "localhost",
     "port": 27017,
-    "username": "mongo",
-    "password": "CHANGE_PASSWORD",
-    "database": "DATABASE_NAME",
+    "database": "gobarber",
     "useUnifiedTopology": true,
     "entities": [
       "./dist/modules/**/infra/typeorm/schemas/*.js"

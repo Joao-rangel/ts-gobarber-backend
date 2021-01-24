@@ -42,6 +42,8 @@ app.use(
   },
 );
 
-app.listen(3333, () => {
-  console.log(' server started on port 3333!'); // eslint-disable-line no-console
+const PORT = process.env.PORT || 3333;
+
+app.listen(PORT, () => {
+  console.info(`server started on port ${PORT}!`); // eslint-disable-line no-console
 });
