@@ -20,10 +20,10 @@ class UsersRepository implements IUsersRepository {
 
     if (except_user_id) {
       users = await this.ormRepository.find({
-        where: { id: Not(except_user_id) },
+        where: { id: Not(except_user_id), provider: true },
       });
     } else {
-      users = await this.ormRepository.find();
+      users = await this.ormRepository.find({ where: { provider: true } });
     }
 
     return users;
@@ -45,8 +45,9 @@ class UsersRepository implements IUsersRepository {
     name,
     email,
     password,
+    provider,
   }: ICreateUserDTO): Promise<User> {
-    const user = this.ormRepository.create({ name, email, password });
+    const user = this.ormRepository.create({ name, email, password, provider });
 
     await this.ormRepository.save(user);
 
