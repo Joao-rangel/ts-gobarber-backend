@@ -3,14 +3,18 @@ module.exports = [
     "name": "default",
     "type": "postgres",
     "url": process.env.DATABASE_URL,
-    "ssl": {
-      rejectUnauthorized: false
-    },
+    // "ssl": {
+    //   rejectUnauthorized: false
+    // },
     "entities": [
-      "./dist/modules/**/infra/typeorm/entities/*.js"
+      process.env.NODE_ENV === 'production' ?
+        "./dist/modules/**/infra/typeorm/entities/*.js" :
+        "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
     "migrations": [
-      "./dist/shared/infra/typeorm/migrations/*.js"
+      process.env.NODE_ENV === 'production' ?
+        "./dist/shared/infra/typeorm/migrations/*.js" :
+        "./src/shared/infra/typeorm/migrations/*.ts"
     ],
     "cli": {
       "migrationsDir": "./src/shared/infra/typeorm/migrations"
@@ -22,7 +26,9 @@ module.exports = [
     "url": process.env.MONGO_URL,
     "useUnifiedTopology": true,
     "entities": [
-      "./dist/modules/**/infra/typeorm/schemas/*.js"
+      process.env.NODE_ENV === 'production' ?
+        "./dist/modules/**/infra/typeorm/schemas/*.js" :
+        "./src/modules/**/infra/typeorm/schemas/*.ts"
     ]
   }
 ]
