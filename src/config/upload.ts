@@ -43,7 +43,7 @@ export default {
   config: {
     disk: {},
     aws: {
-      bucket: 'app-gobarber-10-12-20',
+      bucket: process.env.AWS_BUCKET,
     },
   },
 } as IUploadConfig;
