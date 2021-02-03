@@ -10,10 +10,10 @@ export default class AppointmentsController {
 
     const listProviders = container.resolve(ListProvidersService);
 
-    const appointment = await listProviders.execute({
+    const providers = await listProviders.execute({
       user_id,
     });
 
-    return response.json(classToClass(appointment));
+    return response.json(classToClass(providers));
   }
 }
