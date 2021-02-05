@@ -3,9 +3,9 @@ module.exports = [
     "name": "default",
     "type": "postgres",
     "url": process.env.DATABASE_URL,
-    "ssl": {
-      rejectUnauthorized: false
-    },
+    // "ssl": {
+    //   rejectUnauthorized: false
+    // },
     "entities": [
       process.env.NODE_ENV === 'production' ?
         "./dist/modules/**/infra/typeorm/entities/*.js" :
