@@ -23,6 +23,7 @@ describe('AuthenticateSession', () => {
       name: 'Teste',
       email: 'teste@teste.com',
       password: '123123',
+      provider: false,
     });
 
     const response = await authenticateSession.execute({
@@ -49,6 +50,7 @@ describe('AuthenticateSession', () => {
       name: 'Teste',
       email: 'teste@teste.com',
       password: '123456',
+      provider: false,
     });
 
     await expect(

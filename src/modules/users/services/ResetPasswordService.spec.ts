@@ -29,6 +29,7 @@ describe('ResetPasswordService', () => {
       name: 'Esquecido',
       email: 'teste@teste.com',
       password: await fakeHashProvider.generateHash('123123'),
+      provider: false,
     });
 
     const { token } = await fakeUserTokensRepository.generate(user.id);
@@ -71,6 +72,7 @@ describe('ResetPasswordService', () => {
       name: 'Esquecido',
       email: 'teste@teste.com',
       password: await fakeHashProvider.generateHash('123123'),
+      provider: false,
     });
 
     const { token } = await fakeUserTokensRepository.generate(user.id);

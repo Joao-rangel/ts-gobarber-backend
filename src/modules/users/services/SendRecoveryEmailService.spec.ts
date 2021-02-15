@@ -30,6 +30,7 @@ describe('SendRecoveryEmailService', () => {
       name: 'Esquecido',
       email: 'teste@teste.com',
       password: '123123',
+      provider: false,
     });
 
     await sendRecoveryEmail.execute({ email: 'teste@teste.com' });
@@ -50,6 +51,7 @@ describe('SendRecoveryEmailService', () => {
       name: 'Esquecido',
       email: 'teste@teste.com',
       password: '123123',
+      provider: false,
     });
 
     await sendRecoveryEmail.execute({ email: 'teste@teste.com' });

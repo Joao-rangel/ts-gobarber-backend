@@ -23,6 +23,7 @@ describe('UpdateUserAvatar', () => {
       name: 'Teste 123',
       email: 'teste@teste.com',
       password: '123123',
+      provider: false,
     });
 
     await updateUserAvatar.execute({
@@ -49,6 +50,7 @@ describe('UpdateUserAvatar', () => {
       name: 'Teste 123',
       email: 'teste@teste.com',
       password: '123123',
+      provider: false,
     });
 
     await updateUserAvatar.execute({
